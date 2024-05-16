@@ -5,6 +5,7 @@ import cors from 'cors';
 
 const app = express();
 app.use(cors());
+app.use(express.json());  
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect("mongodb://localhost:27017/Cosmetic_Data");
@@ -63,7 +64,13 @@ app.get('/products', async (req, res) => {
   try {
     console.log("Req :", req.query);
     const queryParameters = {};
+    if (req.query.brand) {
+      queryParameters.brand = req.query.brand;
+    }
 
+    if (req.query.product_type) {
+      queryParameters.product_type = req.query.product_type;
+    }
     // Check if price range is provided in the query parameters
     if (req.query.price) {
       const priceRange = req.query.price.split('-');
@@ -75,6 +82,7 @@ app.get('/products', async (req, res) => {
 
     const products = await Products.find(queryParameters);
     res.json(products);
+    
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ error: "Internal server error" });

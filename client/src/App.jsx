@@ -8,6 +8,7 @@ import Additioal from './Pages/Additioal.jsx';
 import Getdetails from './Pages/Getdetails.jsx';
 import {ProductProvider} from './ProductContext.jsx'
 import { CartProvider } from './AddCartContext.jsx';
+import { WishlistProvider } from './Pages/WishlistContext.jsx';
 import AddCart from './Components/AddCart.jsx';
 import { GetCartProvider } from './Pages/GetCartContext.jsx';
 import Category from './Components/Navbar/Category.jsx';
@@ -23,7 +24,7 @@ function App() {
     <ProductProvider>
       <CartProvider>
         <GetCartProvider>
-      <Navbar setSearchFilter={setSearchFilter} size={Cart}  />
+      <Navbar setSearchFilter={setSearchFilter} size={Cart} />
       
       <Routes>
         <Route path='/' element={<Homepage searchFilter={searchFilter} setSearchFilter={setSearchFilter} />}/>

@@ -12,8 +12,9 @@ const Categories = ({ searchFilter, setSearchFilter }) => {
 
   const [Choicebrand, setChoicebrand] = useState("");
   const [selectedPriceRange, setSelectedPriceRange] = useState(null);
-
-  const [Countheart , setCountheart] = useState(false);
+  const [hoverheart,sethoverheart] = useState(null);
+  const [Colorheart , setColorheart]  = useState("");
+  const [Cnt ,setCnt]= useState(0);
 
   const selectBrand = Choicebrand ? `brand=${Choicebrand}` : "";
   const requestFilter = searchFilter ? `product_type=${searchFilter}` : "";
@@ -23,17 +24,28 @@ const Categories = ({ searchFilter, setSearchFilter }) => {
   // Construct the full API URL
   const apiurl = `http://localhost:3000/products${queryString ? `?${queryString}` : ''}`;
 
+ const handleheart=(id)=>{
+  sethoverheart(id);
+  
+ }
+ 
+ const handleClickheart=(id)=>{
+  
+  setColorheart(prevColorHeart => ({
+    ...prevColorHeart,
+    [id]: !prevColorHeart[id] 
+  }));
+ }
 
-
-  console.log(apiurl)
   const { Products, setProducts } = useContext(ProductContext);
+  console.log(apiurl)
 
   const fetchinfo = async () => {
     try {
       const response = await fetch(apiurl);
       const data = await response.json();
       setProducts(data);
-      console.log(data);
+      
     } catch (error) {
       console.log(error);
     }
@@ -43,9 +55,7 @@ const Categories = ({ searchFilter, setSearchFilter }) => {
     fetchinfo();
   }, [searchFilter, Choicebrand ,selectedPriceRange ])
 
-  const handleHeart = () => {
-    setCountheart(true);
-  }
+  
 
   const handlePriceSelection = (price) => {
     setSelectedPriceRange(price);
@@ -53,17 +63,7 @@ const Categories = ({ searchFilter, setSearchFilter }) => {
 
   
 
-  // }
-  // const Filterprice = () => {
-  //   const price = "$1 - $5";
-  //   const [lower, upper] = price.split(' - ').map(parseFloat);
-
-  //   const [selectedLower, selectedUpper] = selectedPrice.split(' - ').map(parseFloat);
-
-  //   console.log(selectedLower, selectedUpper)
-  //   return lower >= selectedLower && upper <= selectedUpper;
-
-  // }
+  
 
 
   return (
@@ -80,26 +80,30 @@ const Categories = ({ searchFilter, setSearchFilter }) => {
       </div>
 
 
-      <div className=' col-span-3 grid grid-flow-row-dense grid-cols-3 gap-2 bg-red-200 mx-10 '>
+      <div className=' col-span-3 grid grid-flow-row-dense grid-cols-3 gap-2 bg-red-200 mx-10 ' >
 
         {Products
         .map(product => {
           
           return (
             <>
-              <div key={product.id} className='m-5 p-4 bg-white h-96 rounded-2xl text-center block transform hover:scale-105 hover:shadow-2xl transition delay-50 duration-300 ease-in-out mx-10 w-64'>
+              <div key={product.id} className='m-5 p-4 bg-white h-96 rounded-2xl text-center block transform hover:scale-105 hover:shadow-2xl  transition delay-50 duration-300 ease-in-out mx-10 w-64' onMouseOver={(key)=>{handleheart(product.id)}}>
                 <Link to={`/GetDetails/${product.id}/${product.name}/${product.brand}`}>
                   <img className='w-30 h-40 border-white mx-auto ' src={`https://${product.api_featured_image}`} alt="" />
                   <div className='m-4'>
                     <h2 className=' font-bold text-xl'>{product.name}</h2>
                     <p className='text-orange-700'>{product.brand}</p>
                     <p>${product.price}</p>
-                    <FaHeart className='mx-40' style={{ color: Countheart ? 'text-red-400' : 'text-white' }} onClick={handleHeart}/>
-
-
+                    
                   </div>
-                </Link>
-                
+                  </Link>
+
+                 
+                 {product.id===hoverheart && <><FaHeart className={`mx-40 ${Colorheart[product.id] ? 'text-pink-600' : ''}`}  size={24} onClick={()=>{handleClickheart(product.id)}}/></>}
+               
+                         
+                 
+
 
 
 

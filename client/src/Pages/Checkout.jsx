@@ -239,12 +239,12 @@ const handlepayment=(e)=>{
             <div className="  m-2 font-bold flex">
 
               <h1 className="text-left mr-14">Total Items :</h1>
-              <h1 className="text-end ml-60">{totalItems}</h1>
+              <h1 className="text-end ml-44">{totalItems}</h1>
 
             </div>
             <div className="  m-2 font-bold flex">
               <h1 className="text-left mr-10">Total To Pay :</h1>
-              <h1 className="text-end ml-56">$ {totalprice.toFixed(2)} </h1>
+              <h1 className="text-end ml-44">$ {totalprice.toFixed(2)} </h1>
             </div>
             <button className=" p-2 m-2 bg-orange-400"><Link to="/Thank">Place Your Order</Link></button>
           </div>
