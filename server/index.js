@@ -8,8 +8,13 @@ app.use(cors());
 app.use(express.json());  
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect("mongodb://localhost:27017/Cosmetic_Data");
+// mongoose.connect("mongodb://localhost:27017/Cosmetic_Data")
+const connectDb = async()=>{
+  await mongoose.connect(`mongodb+srv://laxmiray013:AmMbAKoNWox3URRd@cluster0.gpi4hpx.mongodb.net/Cosmetic_Data`);
+  console.log(`this db is connected with ${mongoose.connection.host}`)
+}
 
+connectDb();
 
 const postSchema = new mongoose.Schema({
   id: {
